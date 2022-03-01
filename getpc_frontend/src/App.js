@@ -1,11 +1,14 @@
-import './App.css';
+import React from "react";
+import PCDirs from "./components/PCDirs";
 
-function App() {
-  return (
-    <div className="App">
-      
-    </div>
-  );
+class App extends React.Component {
+  render() {
+    return (
+      <div className="App">
+        <PCDirs />
+      </div>
+    );
+  }
 }
 
 export default App;
