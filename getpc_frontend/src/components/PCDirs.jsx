@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
 import DirIcon from "./DirIcon";
+import { useNavigate } from "react-router-dom";
+import ReactDOM from "react-dom";
 
 
 function PCDirs() {
     const [dirs, setDirs] = useState([]);
     const [currentPath, setCurrentPath] = useState("");
     const [dirStack, setDirStack] = useState([]);
+    const navigate = useNavigate();
+
+    const [audioSrc, setAudioSrc] = useState("");
 
     const getDirs = (dirPath=null) => {
-        let url = `http://127.0.0.1:8000/api/dirs/`;
-
+        let url = `http://192.168.29.246:8000/api/dirs/`;
+        
         fetch(url, {
             method: 'POST',
             body: JSON.stringify({"dirPath": dirPath}),
@@ -19,12 +24,16 @@ function PCDirs() {
                 'Content-Type': 'application/json'
             }
         }).then(res => res.json()).then(res => {
+
             setDirs(res['result']);
             setCurrentPath(res['current_path'])
+                       
         }).catch(err => {
             console.log(err);
         })
     }
+
+    
 
     useEffect(() => {
         getDirs();
@@ -33,7 +42,6 @@ function PCDirs() {
     
     return (
         <div>
-
             <button onClick={() => {
                     let secLastPath = dirStack[dirStack.length - 1];
                     setDirStack(dirStack.slice(0, dirStack.length-1));
@@ -42,16 +50,26 @@ function PCDirs() {
 
             <div style={styles.pcdir_style}>
                 {
-                    dirs.map((dirName, index) => {
-                        if (dirName[0] !== '.'){
-                            return <DirIcon 
+                    dirs.map((dirObj, index) => {
+
+                        if (dirObj.dir_name[0] !== '.'){
+                            return <DirIcon
                                         key={index} 
-                                        title={dirName} 
-                                        clicked={(clicked_dir) => {
+                                        dirObj={dirObj} 
+                                        clicked={async (obj) => {
+                                            
                                             setDirStack([...dirStack, currentPath])
-                                            let newPath = currentPath + "/" + clicked_dir;
-                                            getDirs(newPath)
-                                            console.log(dirStack)
+                                            let newPath = currentPath + "/" + obj.name;
+                                            console.log(obj.type)
+                                            if (obj.type === undefined){
+                                                // it's a directory
+                                                getDirs(newPath)
+                                            }else if (obj.type == 'video'){
+                                                // it's a video file
+                                                navigate('/stream', { state: { type: obj.type, filePath: newPath } })
+                                            }else if (obj.type == 'audio'){
+                                                // it's an audio file
+                                            }
                                         }}
                                     />
                         }
