@@ -2,24 +2,31 @@ import React from "react";
 import '../index.css'
 
 function DirIcon(props) {
+    let obj = props.dirObj;
+
     let icon_thumb;
-    let title = props.title;
+    let title = obj.dir_name;
     
-    if (title.endsWith(".mp3"))
+    const [type,ext] = obj.dir_type ? obj.dir_type.split("/") : [];
+
+    if (type == "audio")
         icon_thumb = "thumbnails/audio.png";
-    else if (title.endsWith(".mp4"))
+    else if (type == "video")
         icon_thumb = "thumbnails/vid.png";
     else
         icon_thumb = "thumbnails/folder.png";
 
-    title = title.slice(0, title.indexOf("."))
+        // title.slice(0,title.indexOf("."))
 
     return (
-        <div style={styles.dir_icon} onClick={() => { props.clicked(props.title) }}>
+        <div style={styles.dir_icon} onClick={() => { props.clicked({
+            name: title,
+            type,
+            ext,
+        }) }}>
             <img style={styles.icon_thumb} src={icon_thumb} alt="" />
-            <div style={{fontWeight: 'bold', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '20%', fontSize: 18 }}>{title.slice(0, 10)}</div>
+            <div style={{fontWeight: 'bold', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '20%', fontSize: 18 }}>{title}</div>
         </div>
-       
     )
 }
 
