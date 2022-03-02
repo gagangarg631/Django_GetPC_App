@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.http import FileResponse
 
 import os
 import json
@@ -20,3 +21,4 @@ def getDirs(request):
         dirs['current_path'] = dirPath
 
     return Response(dirs)
+
