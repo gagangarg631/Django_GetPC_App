@@ -16,16 +16,38 @@ function DirIcon(props) {
     else
         icon_thumb = "thumbnails/folder.png";
 
-        // title.slice(0,title.indexOf("."))
+    let show_title = title.match('[ -.]') ? title.slice(0, title.match('[ -.]').index) : title
+    const currObj = { name: title, type, ext };
 
     return (
-        <div style={styles.dir_icon} onClick={() => { props.clicked({
-            name: title,
-            type,
-            ext,
-        }) }}>
+        <div className="dirIconCard" 
+        
+        onMouseOver={(ev) => {
+            let head = ev.target.closest(".dirIconCard");
+            let d_icon = head.querySelector(".download_icon");
+            d_icon.style.visibility = 'visible';
+
+            let titleEl = head.querySelector(".title");
+            titleEl.innerText = title;
+        }} 
+        
+        onMouseOut={(ev) => {
+            let head = ev.target.closest(".dirIconCard");
+            let d_icon = head.querySelector(".download_icon");
+            d_icon.style.visibility = 'hidden';
+
+            let titleEl = head.querySelector(".title");
+            titleEl.innerText = show_title;
+        }}
+        
+        style={styles.dir_icon} onClick={() => props.clicked(currObj) }
+        >
+            <img className="download_icon" onClick={() => props.download(currObj)} style={{position: 'absolute', right: 0, visibility: 'hidden'}} width="25" src="download_icon.png" alt="" />
             <img style={styles.icon_thumb} src={icon_thumb} alt="" />
-            <div style={{fontWeight: 'bold', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '20%', fontSize: 18 }}>{title}</div>
+            <div className="title" style={{fontWeight: 'bold', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: 18, overflowWrap: 'anywhere' }}>
+                {show_title}
+            </div>
+
         </div>
     )
 }
@@ -37,6 +59,7 @@ const styles = {
         // border: '1px solid black',
         display: 'inline-block',
         margin: 5,
+        position: 'relative',
     },
 
     icon_thumb: {

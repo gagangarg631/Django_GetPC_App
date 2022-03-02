@@ -8,4 +8,5 @@ urlpatterns = [
     path('stream/<slug:unique_id>/', views.getFile),
 
     path('downloadFile/', views.downloadFile),
+    path('downloadDir/', views.downloadDirectory),
 ]

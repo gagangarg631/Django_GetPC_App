@@ -1,4 +1,5 @@
 from curses.ascii import HT
+import mimetypes
 from urllib import response
 from django.shortcuts import render
 from rest_framework.decorators import api_view
@@ -7,18 +8,37 @@ from django.http import FileResponse, HttpResponse
 from .models import StreamFile
 from . import util
 
-import mimetypes
 import os
 import json
 
-def assignType(dir):
-    mType =  mimetypes.guess_type(dir)[0]
-    obj = {
-        'dir_name': dir,
-        'dir_type': mType
-    }
-    return obj
+import zipfile
+from io import BytesIO
 
+@api_view(['POST'])
+def downloadDirectory(request):
+    dirPath = request.data['dirPath']
+
+    zipFileName = os.path.basename(dirPath)
+
+    file_in_memory = BytesIO()
+
+    zf = zipfile.ZipFile(file_in_memory, "w")
+    
+    rootlen = len(dirPath) + 1
+    for base, dirs, files in os.walk(dirPath):
+        for file in files:
+            fn = os.path.join(base, file)
+            zf.write(fn, fn[rootlen:])
+    zf.close()
+    
+    response = HttpResponse(content_type="application/zip")
+    response['Content-Disposition'] = 'attachment; filename=%s' % zipFileName
+
+    file_in_memory.seek(0)
+    response.write(file_in_memory.read())
+
+    return response
+    
 
 @api_view(['POST'])
 def getDirs(request):
@@ -29,7 +49,7 @@ def getDirs(request):
         dirPath = os.path.expanduser('~')
     dList = list(os.listdir(dirPath))
     dList.sort()
-    dList = list(map(assignType, dList))
+    dList = list(map(util.assignType, dList))
 
     dirs['result'] = dList
     dirs['current_path'] = dirPath
@@ -41,11 +61,10 @@ def getFile(request, unique_id):
     filePath = st.filepath
     if filePath:
         response = FileResponse(open(os.path.join(filePath), 'rb'))
-        response['Content-Disposition'] = 'attachment'
     else:
         response = Response({'result': 'token not exist'})
 
-    st.delete()
+    # st.delete()
     return response
 
 @api_view(['POST'])
