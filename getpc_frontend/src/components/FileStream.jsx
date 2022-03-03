@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { getToken, streamUrl, downloadUrl } from "./../util";
 
 function FileStream(props) {
     const { state } = useLocation();
@@ -8,24 +9,10 @@ function FileStream(props) {
 
     const [fileSrc, setFileSrc] = useState("");
 
-    const getToken = async (filePath) => {
-        let url = `http://192.168.29.246:8000/api/getStreamToken/`;
-        let streamUrl = `http://192.168.29.246:8000/api/stream/`;
-
-        return fetch(url, {
-            method: 'POST',
-            body: JSON.stringify({'filePath': filePath}),
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        }).then(res => res.json()).then(res => {
-            setFileSrc(streamUrl + res['token'])
-        })
-    }
+    
 
     const downloadFile = () => {
-            fetch(`http://192.168.29.246:8000/api/downloadFile/`, {
+            fetch(downloadUrl, {
                 method: 'POST',
                 body: JSON.stringify({'filePath': filePath}),
                 mode: 'cors',
@@ -49,8 +36,9 @@ function FileStream(props) {
             });
     }
     
-    useEffect(() => {
-        getToken(filePath);
+    useEffect(async () => {
+        let token = await getToken(filePath);
+        setFileSrc(streamUrl + token)
     }, [])
 
     return (
