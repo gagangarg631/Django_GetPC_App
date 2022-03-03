@@ -3,7 +3,7 @@ import DirIcon from "./DirIcon";
 import AudioElement from "./AudioElement";
 import { useNavigate } from "react-router-dom";
 import ReactDOM from "react-dom";
-import { getToken, streamUrl, downloadDirUrl } from "../util";
+import { getToken, streamUrl, downloadDirUrl, dirsUrl } from "../util";
 
 function PCDirs() {
     const [dirs, setDirs] = useState([]);
@@ -12,7 +12,7 @@ function PCDirs() {
     const navigate = useNavigate();
 
     const getDirs = (dirPath=null) => {
-        let url = `http://192.168.29.246:8000/api/dirs/`;
+        let url = dirsUrl;
         
         fetch(url, {
             method: 'POST',
@@ -88,10 +88,10 @@ function PCDirs() {
                                             if (obj.type === undefined){
                                                 // it's a directory
                                                 getDirs(newPath)
-                                            }else if (obj.type == 'video'){
+                                            }else if (obj.type === 'video'){
                                                 // it's a video file
                                                 navigate('/stream', { state: { type: obj.type, filePath: newPath } })
-                                            }else if (obj.type == 'audio'){
+                                            }else if (obj.type === 'audio'){
                                                 // it's an audio file
                                                 getToken(newPath).then(token => {
                                                     ReactDOM.render(<AudioElement audio_src={streamUrl + token} />,

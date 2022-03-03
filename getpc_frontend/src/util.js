@@ -1,9 +1,14 @@
-export let streamUrl = `http://192.168.29.246:8000/api/stream/`;
-export let downloadDirUrl = `http://192.168.29.246:8000/api/downloadDir/`;
-export let downloadUrl = `http://192.168.29.246:8000/api/downloadFile/`;
+const baseUrl = `http://192.168.29.246:8010`;
+const apiUrl = `${baseUrl}/api`
+
+export const dirsUrl = apiUrl + '/dirs/';
+export const streamTokenUrl = apiUrl + '/getStreamToken/';
+export const streamUrl = apiUrl + '/stream/';
+export const downloadDirUrl = apiUrl + '/downloadDir/';
+export const downloadUrl = apiUrl + '/downloadFile/';
 
 const getToken = async (filePath) => {
-    let url = `http://192.168.29.246:8000/api/getStreamToken/`;
+    let url = streamTokenUrl;
 
     let js_res = await fetch(url, {
         method: 'POST',
