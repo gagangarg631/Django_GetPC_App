@@ -1,5 +1,4 @@
 import React from "react";
-import '../index.css'
 
 function DirIcon(props) {
     let obj = props.dirObj;
@@ -27,7 +26,7 @@ function DirIcon(props) {
             let d_icon = head.querySelector(".download_icon");
             d_icon.style.visibility = 'visible';
 
-            let titleEl = head.querySelector(".title");
+            let titleEl = head.querySelector(".dirTitle");
             titleEl.innerText = title;
         }} 
         
@@ -36,7 +35,7 @@ function DirIcon(props) {
             let d_icon = head.querySelector(".download_icon");
             d_icon.style.visibility = 'hidden';
 
-            let titleEl = head.querySelector(".title");
+            let titleEl = head.querySelector(".dirTitle");
             titleEl.innerText = show_title;
         }}
         
@@ -44,7 +43,7 @@ function DirIcon(props) {
         >
             <img className="download_icon" onClick={() => props.download(currObj)} style={{position: 'absolute', right: 0, visibility: 'hidden'}} width="25" src="download_icon.png" alt="" />
             <img style={styles.icon_thumb} src={icon_thumb} alt="" />
-            <div className="title" style={{fontWeight: 'bold', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: 18, overflowWrap: 'anywhere' }}>
+            <div className="dirTitle" style={{fontWeight: 'bold', display: 'flex', justifyContent: 'center', alignItems: 'center', overflowWrap: 'anywhere' }}>
                 {show_title}
             </div>
 
@@ -54,8 +53,6 @@ function DirIcon(props) {
 
 const styles = {
     dir_icon: {
-        width: 120,
-        height: 150,
         // border: '1px solid black',
         display: 'inline-block',
         margin: 5,
@@ -69,9 +66,6 @@ const styles = {
         // border: '1px solid blue',
     },
 
-    icon_title: {
-        
-    }
 }
 
 export default DirIcon;

@@ -1,4 +1,4 @@
-const baseUrl = `http://192.168.29.246:8010`;
+const baseUrl = `http://192.168.106.250:8010`;
 const apiUrl = `${baseUrl}/api`
 
 export const dirsUrl = apiUrl + '/dirs/';

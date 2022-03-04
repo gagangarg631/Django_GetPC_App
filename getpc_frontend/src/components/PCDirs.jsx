@@ -42,12 +42,16 @@ function PCDirs() {
     return (
         <div>
             <div id="play_media"></div>
-            <button onClick={() => {
+            <img id="back_button" style={{visibility: "hidden"}} src="back.png" onClick={(ev) => {
                     let secLastPath = dirStack[dirStack.length - 1];
+                    if (dirStack.length <= 1){
+                        ev.target.style.visibility = 'hidden';
+                    }
                     setDirStack(dirStack.slice(0, dirStack.length-1));
                     getDirs(secLastPath)
-                }}>Back</button>
-
+                }}
+                alt=""
+            />
             <div style={styles.pcdir_style}>
                 {
                     dirs.map((dirObj, index) => {
@@ -81,7 +85,7 @@ function PCDirs() {
                                             });
                                         }}
                                         clicked={async (obj) => {
-                                            
+                                            document.getElementById('back_button').style.visibility = 'visible';
                                             setDirStack([...dirStack, currentPath])
                                             let newPath = currentPath + "/" + obj.name;
                                             
@@ -112,7 +116,7 @@ function PCDirs() {
 const styles = {
     pcdir_style: {
         border: '1px solid black', 
-        margin: '20px auto',
+        margin: '0 auto',
         
     }
 }
