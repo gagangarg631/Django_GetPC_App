@@ -46,7 +46,8 @@ def getDirs(request):
     dirs = {}
 
     if dirPath == None:
-        dirPath = os.path.expanduser('~')
+        #use dirPath = os.path.expanduser('~')    to get current user
+        dirPath = '/media'          
 
     dList = list(os.listdir(dirPath))
     dList.sort()

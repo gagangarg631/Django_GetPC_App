@@ -92,7 +92,15 @@ function PCDirs() {
                                         getDirs(newPath)
                                     } else if (obj.type === 'video') {
                                         // it's a video file
-                                        navigate('/stream', { state: { type: obj.type, filePath: newPath } })
+                                        let vid_list = dirs.filter((item) => {
+                                            
+                                            if (item['dir_type'] && item['dir_type'].split("/")[0] === 'video')
+                                                return true;
+                                            else
+                                                return false;
+                                        })
+
+                                        navigate('/stream', { state: { obj: obj, currentPath: currentPath, video_list: vid_list } })
                                     } else if (obj.type === 'audio') {
                                         // it's an audio file
                                         getToken(newPath).then(token => {

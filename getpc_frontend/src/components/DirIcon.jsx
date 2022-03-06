@@ -21,23 +21,23 @@ function DirIcon(props) {
     return (
         <div className="dirIconCard" 
         
-        onMouseOver={(ev) => {
-            let head = ev.target.closest(".dirIconCard");
-            let d_icon = head.querySelector(".download_icon");
-            d_icon.style.visibility = 'visible';
+        // onMouseOver={(ev) => {
+        //     let head = ev.target.closest(".dirIconCard");
+        //     let d_icon = head.querySelector(".download_icon");
+        //     d_icon.style.visibility = 'visible';
 
-            let titleEl = head.querySelector(".dirTitle");
-            titleEl.innerText = title;
-        }} 
+        //     let titleEl = head.querySelector(".dirTitle");
+        //     titleEl.innerText = title;
+        // }} 
         
-        onMouseOut={(ev) => {
-            let head = ev.target.closest(".dirIconCard");
-            let d_icon = head.querySelector(".download_icon");
-            d_icon.style.visibility = 'hidden';
+        // onMouseOut={(ev) => {
+        //     let head = ev.target.closest(".dirIconCard");
+        //     let d_icon = head.querySelector(".download_icon");
+        //     d_icon.style.visibility = 'hidden';
 
-            let titleEl = head.querySelector(".dirTitle");
-            titleEl.innerText = show_title;
-        }}
+        //     let titleEl = head.querySelector(".dirTitle");
+        //     titleEl.innerText = show_title;
+        // }}
         
         style={styles.dir_icon} onClick={() => props.clicked(currObj) }
         >

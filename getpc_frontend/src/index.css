@@ -3,6 +3,7 @@
     margin: 0;
 }
 
+
 @keyframes audio_anim {
     from {
         transform: translateY(-54px);
@@ -74,4 +75,20 @@
     .dirTitle{
         font-size: 12px;
     }
+}
+
+.video_running_title{
+    height: 50px;
+}
+
+.video_card{
+    display: flex;
+    border: 1px solid blue;
+    padding: 10px;
+    height: 60px;
+}
+.video_card_title{
+    border: 1px solid red;
+    width: 100%;
+    word-wrap: break-word;
 }
