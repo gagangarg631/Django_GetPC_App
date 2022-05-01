@@ -5,6 +5,7 @@ from django.http import StreamingHttpResponse, HttpResponse
 from .models import StreamFile
 from . import util
 
+from sys import platform
 import mimetypes
 import zipfile
 from io import BytesIO
@@ -45,11 +46,21 @@ def getDirs(request):
     dirPath = request.data['dirPath']
     dirs = {}
 
-    if dirPath == None:
-        dirPath = os.path.expanduser('~')    #to get current user
-        # dirPath = '/home/gagan'          
+    dList = []
 
-    dList = list(os.listdir(dirPath))
+    if dirPath == None:
+        if platform == 'linux':
+            dirPath = '/'
+        elif platform == 'windows':
+            pass
+        else:
+            print("Operating System neither linux nor windows")
+
+    if dirPath == '/':
+        dList = ['home', 'media']
+    else:
+        dList = list(os.listdir(dirPath))
+    
     dList.sort()
 
     # replace all dir names in list with dict contains 'dir' and 'type' properties

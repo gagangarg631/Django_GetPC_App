@@ -5,6 +5,8 @@ import VideoCard from "./VideoCard";
 
 function FileStream(props) {
     const { state } = useLocation();
+
+    const { setActiveScreen } = props;
     
     const { obj, currentPath, video_list } = state;
 
@@ -38,6 +40,7 @@ function FileStream(props) {
     }
     
     useEffect(async () => {
+        setActiveScreen("FILESTREAM")
         let token = await getToken(filePath);
         setFileSrc(streamUrl + token)
     }, [])

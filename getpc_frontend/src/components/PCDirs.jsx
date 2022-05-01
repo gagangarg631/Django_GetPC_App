@@ -3,53 +3,30 @@ import DirIcon from "./DirIcon";
 import AudioElement from "./AudioElement";
 import { useNavigate } from "react-router-dom";
 import ReactDOM from "react-dom";
-import { getToken, streamUrl, downloadDirUrl, dirsUrl } from "../util";
+import { getToken, streamUrl, downloadDirUrl } from "../util";
+import { useLocation } from "react-router-dom";
 
-function PCDirs() {
-    const [dirs, setDirs] = useState([]);
-    const [currentPath, setCurrentPath] = useState("");
-    const [dirStack, setDirStack] = useState([]);
+
+function PCDirs(props) {
+
+    const { dirs, setDirs, dirStack, setDirStack, getDirs, currentPath, setCurrentPath, setActiveScreen } = props;
+
     const navigate = useNavigate();
 
-    const getDirs = (dirPath = null) => {
-        let url = dirsUrl;
+    const { state } = useLocation();
 
-        fetch(url, {
-            method: 'POST',
-            body: JSON.stringify({ "dirPath": dirPath }),
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json()).then(res => {
-
-            setDirs(res['result']);
-            setCurrentPath(res['current_path'])
-
-        }).catch(err => {
-            console.log(err);
-        })
-    }
+    let path;
+    state ? path=state.path : path="";
 
     useEffect(() => {
-        getDirs();
+        setActiveScreen("PCDIRS");
+        path ? getDirs(path) : getDirs();
     }, []);
 
 
     return (
         <div>
             <div id="play_media"></div>
-            <img id="back_button" style={{ visibility: "hidden", zIndex: 1 }} src="back.png" onClick={(ev) => {
-                let secLastPath = dirStack[dirStack.length - 1];
-                if (dirStack.length <= 1) {
-                    ev.target.style.visibility = 'hidden';
-                }
-                setDirStack(dirStack.slice(0, dirStack.length - 1));
-                getDirs(secLastPath)
-            }}
-                alt=""
-            />
             <div style={styles.pcdir_style}>
                 {
                     dirs.map((dirObj, index) => {

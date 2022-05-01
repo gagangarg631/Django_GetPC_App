@@ -15,7 +15,8 @@ function DirIcon(props) {
     else
         icon_thumb = "thumbnails/folder.png";
 
-    let show_title = title.match('[ -.]') ? title.slice(0, title.match('[ -.]').index) : title
+    // let show_title = title.match('[ -.]') ? title.slice(0, title.match('[ -.]').index) : title
+    let show_title = title;
     const currObj = { name: title, type, ext };
 
     return (
