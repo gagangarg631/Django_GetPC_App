@@ -1,28 +1,34 @@
 import { useNavigate } from "react-router-dom";
 
-function BackButton(props){
+function BackButton(props) {
 
     const navigate = useNavigate();
 
     const { dirStack, setDirStack, getDirs, activeScreen } = props;
 
-    return (
-        <img id="back_button" style={{ visibility: "hidden", zIndex: 1 }} src="back.png" onClick={(ev) => {
-            
-            let secLastPath = dirStack[dirStack.length - 1];
-            if (activeScreen === "FILESTREAM"){
-                console.log(secLastPath);
-                navigate('/', { state: { path: secLastPath } })
-            }
+    const goBack = (ev) => {
 
-            if (dirStack.length <= 1) {
-                ev.target.style.visibility = 'hidden';
-            }
-            setDirStack(dirStack.slice(0, dirStack.length - 1));
-            getDirs(secLastPath)
-        }}
-            alt=""
-        />
+        let secLastPath = dirStack[dirStack.length - 1];
+        if (activeScreen === "FILESTREAM") {
+            navigate('/', { state: { path: secLastPath } })
+        }
+
+        if (dirStack.length <= 1) {
+            ev.target.style.display = 'none';
+        }
+        setDirStack(dirStack.slice(0, dirStack.length - 1));
+        getDirs(secLastPath)
+    }
+
+    return (
+        <div onClick={goBack} id="back_button" style={{
+            alignItems: 'center',
+            backgroundColor: 'aliceblue',
+            display: 'none',
+            zIndex: 1,
+        }}>
+            <img src="back.png" alt="" />
+        </div>
     )
 }
 

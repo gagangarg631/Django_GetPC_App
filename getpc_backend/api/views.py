@@ -12,6 +12,7 @@ from io import BytesIO
 
 import os
 import re
+import psutil
 
 
 @api_view(['POST'])
@@ -45,14 +46,14 @@ def downloadDirectory(request):
 def getDirs(request):
     dirPath = request.data['dirPath']
     dirs = {}
-
     dList = []
-
+    print(dirPath)
     if dirPath == None:
         if platform == 'linux':
             dirPath = '/'
-        elif platform == 'windows':
-            pass
+        elif platform == 'win32':
+            user = psutil.users()[0].name
+            dirPath = f'D:\\'
         else:
             print("Operating System neither linux nor windows")
 
@@ -62,7 +63,6 @@ def getDirs(request):
         dList = list(os.listdir(dirPath))
     
     dList.sort()
-
     # replace all dir names in list with dict contains 'dir' and 'type' properties
     dList = list(map(util.assignType, dList))
 

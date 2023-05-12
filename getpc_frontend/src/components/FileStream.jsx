@@ -46,11 +46,10 @@ function FileStream(props) {
     }, [])
 
     return (
-        <div style={{backgroundColor: 'white',width: '99vw', border: '1px solid black' }}>
+        <div style={{backgroundColor: 'aliceblue',width: '99vw' }}>
             
             <div id="video_running">
-                <video src={fileSrc} id="video_play" width="100%" height="100%" type="video/mp4" preload="auto" controlsList="nodownload" controls></video>    
-                <p className="video_running_title">{obj.name}</p>
+                <video src={fileSrc} id="video_play" width="100%" height="400px"  type="video/mp4" preload="auto" controlsList="nodownload" controls></video>    
             </div>
             <div id="video_list">
                 {

@@ -9,7 +9,7 @@ import { dirsUrl } from "./util";
 
 
 function App() {
-  
+
   const [dirs, setDirs] = useState([]);
   const [dirStack, setDirStack] = useState([]);
   const [currentPath, setCurrentPath] = useState("");
@@ -17,36 +17,38 @@ function App() {
 
   const getDirs = (dirPath = null) => {
     let url = dirsUrl;
-
+    console.log(dirPath)
     fetch(url, {
-        method: 'POST',
-        body: JSON.stringify({ "dirPath": dirPath }),
-        mode: 'cors',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
+      method: 'POST',
+      body: JSON.stringify({ "dirPath": dirPath }),
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
     }).then(res => res.json()).then(res => {
-
-        setDirs(res['result']);
-        setCurrentPath(res['current_path'])
+      console.log(res);
+      setDirs(res['result']);
+      setCurrentPath(res['current_path'])
 
     }).catch(err => {
-        console.log(err);
+      console.log(err);
     })
-}
+  }
 
   return (
     <div className="App">
-      <Header title="My PC Files"/>
+      <Header title="My PC Files" />
       <BrowserRouter>
+
         <BackButton dirStack={dirStack} setDirStack={setDirStack} getDirs={getDirs} activeScreen={activeScreen} />
+
         <Link id="home_link" to="/"></Link>
         <Routes>
-          <Route exact path="/" element={<PCDirs dirs={dirs} setDirs={setDirs} getDirs={getDirs} dirStack={dirStack} setDirStack={setDirStack} currentPath={currentPath} setCurrentPath={setCurrentPath} setActiveScreen={setActiveScreen}/>} />
+          <Route exact path="/" element={<PCDirs dirs={dirs} setDirs={setDirs} getDirs={getDirs} dirStack={dirStack} setDirStack={setDirStack} currentPath={currentPath} setCurrentPath={setCurrentPath} setActiveScreen={setActiveScreen} />} />
           <Route path="/stream" element={<FileStream setActiveScreen={setActiveScreen} />} />
         </Routes>
-        
+
       </BrowserRouter>
     </div>
   );

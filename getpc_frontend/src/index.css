@@ -83,12 +83,13 @@
 
 .video_card{
     display: flex;
-    border: 1px solid blue;
     padding: 10px;
     height: 60px;
+    align-items: center;
+    margin: 10px;
+    border-radius: 20px;
 }
 .video_card_title{
-    border: 1px solid red;
     width: 100%;
     word-wrap: break-word;
 }

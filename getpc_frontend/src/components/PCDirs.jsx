@@ -20,6 +20,7 @@ function PCDirs(props) {
 
     useEffect(() => {
         setActiveScreen("PCDIRS");
+        console.log(path);
         path ? getDirs(path) : getDirs();
     }, []);
 
@@ -60,10 +61,15 @@ function PCDirs(props) {
                                     });
                                 }}
                                 clicked={async (obj) => {
-                                    document.getElementById('back_button').style.visibility = 'visible';
+                                    console.log(currentPath  + obj.name)
+                                    document.getElementById('back_button').style.display = 'flex';
                                     setDirStack([...dirStack, currentPath])
-                                    let newPath = currentPath + "/" + obj.name;
-
+                                    let newPath;
+                                    if (currentPath.lastIndexOf('\\') === currentPath.length-1){
+                                        newPath = currentPath + obj.name
+                                    } else {
+                                        newPath = currentPath + "\\" + obj.name
+                                    }
                                     if (obj.type === undefined) {
                                         // it's a directory
                                         getDirs(newPath)
@@ -123,9 +129,9 @@ function PCDirs(props) {
 
 const styles = {
     pcdir_style: {
-        border: '1px solid black',
         margin: '0 auto',
-
+        padding: '0 10px',
+        backgroundColor: 'aliceblue'
     }
 }
 
